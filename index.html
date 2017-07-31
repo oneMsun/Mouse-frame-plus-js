@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>鼠标画框</title>
+  <style>
+    *{
+      padding: 0;
+      margin:0;
+    }
+    body,html{
+      cursor: default;
+    }
+
+    .tempDiv{
+      border:1px solid #1f71aa;
+      background-color: #369ce3;
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0.3;
+    }
+  </style>
+  <script type="text/javascript">
+    window.onload = function(){
+      document.onmousedown = function(e){
+        var posx = e.pageX, posy = e.pageY;
+        var div = document.createElement('div');
+        div.className = 'tempDiv';
+        div.style.left = e.pageX + 'px';
+        div.style.top = e.pageY + 'px';
+        document.body.appendChild(div);
+        document.onmousemove = function(e){
+          // div.style.lelt = Math.abs(e.pageX - posx) +'px'
+          // div.style.top = Math.min(e.pageY,posy) + 'px';
+          div.style.width = Math.abs(e.pageX - posx) + 'px';
+          div.style.height = Math.abs(e.pageY - posy) + 'px';
+          if(e.pageX > posx){
+            div.style.top = posy + 'px';
+            div.style.left = posx + 'px';
+          }else{
+            div.style.top = e.pageY + 'px';
+            div.style.left = e.pageX + 'px';
+          }
+        }
+        document.onmouseup = function(){
+          div.parentNode.removeChild(div);
+          this.onmousemove = null;
+          this.onmouseup = null;
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>
